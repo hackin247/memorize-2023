@@ -9,76 +9,38 @@ import SwiftUI
 
 struct ContentView: View {
     
-    var emojis = ["🚲","🚂","🚁","🚜","🚀","✈️","🚗","🚕","🚌","🚎","🏎️","🚓","🚑","🚒","🚐","🛻","🚚","🚛","🚙","🛵","🛴","🛺","🦼","🛰️"]
-    
-    @State var emojiCount = 20
+    let viewModel: EmojiMemoryGame      // Declare a constant for the ViewModel
     
     var body: some View {
-        VStack {
-            ScrollView {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]) {
-                    ForEach(emojis[0..<emojiCount], id: \.self) { emoji in
-                        CardView(content: emoji).aspectRatio(2/3, contentMode: .fit)
-                    }
+        ScrollView {
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]) {
+                
+                // iterate on the cards of the viewModel
+                ForEach(viewModel.cards) { card in
+                    CardView(card: card).aspectRatio(2/3, contentMode: .fit)
                 }
-                .foregroundColor(.red)
             }
-            Spacer()
-            HStack {
-                remove
-                Spacer()
-                add
-            }
-            .font(.largeTitle)
-            .padding(.horizontal)
         }
+        .foregroundColor(.red)
         .padding(.horizontal)
     }
-    
-    var remove: some View {
-        Button {
-            if emojiCount > 1 {
-                emojiCount -= 1
-            }
-        } label: {
-            VStack{
-                Image(systemName: "minus.circle")
-            }
-        }
-    }
-    var add: some View {
-        Button {
-            if emojiCount < emojis.count {
-                emojiCount += 1
-            }
-            
-        } label: {
-            VStack{
-                Image(systemName: "plus.circle")
-            }
-        }
-    }
-
 }
 
 
 struct CardView: View {
 
-    var content: String
-    
-    @State var isFaceUp: Bool = true    // @State allow mutation of var inside this view (self); will maintain a pointer outside of this view
+    // This CardView takes a Card and builds a body from it
+    let card: MemoryGame<String>.Card
     
     var body: some View {
-        if isFaceUp {
+        if card.isFaceUp {
             ZStack {
                 let shape = RoundedRectangle(cornerRadius: 20.0)
             
                 shape.fill().foregroundColor(.white)
                 shape.strokeBorder( lineWidth: 3.0 )
-                Text(content)
+                Text(card.content)
                     .font(.largeTitle)
-            }.onTapGesture {
-                isFaceUp = !isFaceUp
             }
         } else {
                 RoundedRectangle(cornerRadius: 20.0)
@@ -90,8 +52,13 @@ struct CardView: View {
 
 
 struct ContentView_Previews: PreviewProvider {
+    
     static var previews: some View {
-        ContentView()
+        let game = EmojiMemoryGame()
+
+        ContentView(viewModel: game).preferredColorScheme(.dark)
+        ContentView(viewModel: game).preferredColorScheme(.light)
     }
 }
- 
+
+
