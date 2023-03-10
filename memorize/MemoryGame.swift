@@ -2,7 +2,8 @@
 //  MemoryGame.swift
 //  memorize
 //
-// This is the model, responsible for for flipping the cards; it is UI independent
+// This is the model, will contain the game logic
+// responsible for for flipping the cards; it is UI independent
 //
 //  Created by Jay Chulani on 2/16/23.
 //
@@ -10,8 +11,13 @@
 import Foundation
 
 // Whoever calls this struct will need to define what CardContent is (the Don't Care)
-struct MemoryGame<CardContent> {
+// - but we also have to tag CardContent as equatable so we can compare contents
+struct MemoryGame<CardContent> where CardContent: Equatable {
     private(set) var cards: Array<Card>         // allow access to cards; but not mutate them
+    
+    // need a var to track a card that was previously flipped, and face up.
+    //
+    private var indexOfTheOneAndOnlyFaceUpCard: Int?
     
     
     // declare func as capable of mutating this model
@@ -20,8 +26,38 @@ struct MemoryGame<CardContent> {
         // Flip the card only only if it's face down, otherwise ignore
         // Can't use && (logical AND) when using if let but , does the same thing
         // chosenIndex will get assigned a value first
-        if let chosenIndex = cards.firstIndex(where: { $0.id == card.id}), !cards[chosenIndex].isFaceUp {
+        if let chosenIndex = cards.firstIndex(where: { $0.id == card.id}),
+            !cards[chosenIndex].isFaceUp,           // Flip the card only only if it's face down
+            !cards[chosenIndex].isMatched {         // Flip the card only only if it's not alreadyt matched
+            
+            // ok we flipped a card, now what?
+            // Check if there's already a card that is face up (not nil)
+            if let potentialIndexMatchIndex = indexOfTheOneAndOnlyFaceUpCard {
+                
+                // check if the cards match!
+                // will show an error unless CardContent is Equatable
+                if cards[chosenIndex].content == cards[potentialIndexMatchIndex].content {
+                    
+                    // If the contents match, mark the cards as matched
+                    cards[chosenIndex].isMatched = true
+                    cards[potentialIndexMatchIndex].isMatched = true
+                }
+                indexOfTheOneAndOnlyFaceUpCard = nil
+                
+            } else {
+                
+                // either two cards are face up, or all are face down (can't wrap my head around this yet)
+                for index in cards.indices {
+                    cards[index].isFaceUp = false
+                }
+                
+                // set the index of the face up card
+                indexOfTheOneAndOnlyFaceUpCard = chosenIndex
+            }
+
+            // always toggle the chosen card
             cards[chosenIndex].isFaceUp.toggle()
+            
             print("chosen card = ")
         }
         print(cards)
