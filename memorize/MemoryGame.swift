@@ -17,21 +17,11 @@ struct MemoryGame<CardContent> {
     
     // declare func as capable of mutating this model
     mutating func choose(_ card: Card) {
-        if let chosenIndex = index(of: card) {  // instead of using optional, we'll only execute code if card is found
+        if let chosenIndex = cards.firstIndex(where: { $0.id == card.id}) {
             cards[chosenIndex].isFaceUp.toggle()
             print("chosen card = ")
         }
         print(cards)
-    }
-    
-    // return nil if we can't find the card; Make return value Int an optional
-    func index(of card: Card) -> Int? {
-        for index in 0..<cards.count {
-            if card.id == cards[index].id {
-                return index
-            }
-        }
-        return nil
     }
     
     // Let the ViewModel take care of creating cards; make it pass in the createCardContent func
