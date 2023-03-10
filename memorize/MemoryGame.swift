@@ -2,7 +2,7 @@
 //  MemoryGame.swift
 //  memorize
 //
-// This is the model; it is UI independent
+// This is the model, responsible for for flipping the cards; it is UI independent
 //
 //  Created by Jay Chulani on 2/16/23.
 //
@@ -13,11 +13,14 @@ import Foundation
 struct MemoryGame<CardContent> {
     private(set) var cards: Array<Card>         // allow access to cards; but not mutate them
     
-    // model is responsible for flipping the cards
     
     // declare func as capable of mutating this model
     mutating func choose(_ card: Card) {
-        if let chosenIndex = cards.firstIndex(where: { $0.id == card.id}) {
+        
+        // Flip the card only only if it's face down, otherwise ignore
+        // Can't use && (logical AND) when using if let but , does the same thing
+        // chosenIndex will get assigned a value first
+        if let chosenIndex = cards.firstIndex(where: { $0.id == card.id}), !cards[chosenIndex].isFaceUp {
             cards[chosenIndex].isFaceUp.toggle()
             print("chosen card = ")
         }
