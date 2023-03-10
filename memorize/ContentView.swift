@@ -40,19 +40,23 @@ struct CardView: View {
     let card: MemoryGame<String>.Card
     
     var body: some View {
-        if card.isFaceUp {
-            ZStack {
-                let shape = RoundedRectangle(cornerRadius: 20.0)
-            
+        ZStack {
+            let shape = RoundedRectangle(cornerRadius: 20.0)
+
+            if card.isFaceUp {
                 shape.fill().foregroundColor(.white)
                 shape.strokeBorder( lineWidth: 3.0 )
                 Text(card.content)
                     .font(.largeTitle)
-            }
-        } else {
+            } else if card.isMatched{
+                
+                // hide the card view if it is matched
+                shape.opacity(0)
+            } else {
                 RoundedRectangle(cornerRadius: 20.0)
                     .fill()
             }
+        }
     }
 }
 
