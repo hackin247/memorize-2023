@@ -9,14 +9,28 @@
 
 import Foundation
 
-// CardContent is a generic type; don't care what it is
-// - whoever calls this struct will define what CardContent is
+// Whoever calls this struct will need to define what CardContent is (the Don't Care)
 struct MemoryGame<CardContent> {
     private(set) var cards: Array<Card>         // allow access to cards; but not mutate them
     
     // model is responsible for flipping the cards
-    func choose(_ card: Card) {
-        
+    
+    // declare func as capable of mutating this model
+    mutating func choose(_ card: Card) {
+        let chosenIndex = index(of: card)!      // Unwrap the optional; will crash the app if value is nil
+        cards[chosenIndex].isFaceUp.toggle()
+        print("chosen card = ")
+        print(cards)
+    }
+    
+    // return nil if we can't find the card; Make return value Int an optional
+    func index(of card: Card) -> Int? {
+        for index in 0..<cards.count {
+            if card.id == cards[index].id {
+                return index
+            }
+        }
+        return nil
     }
     
     // Let the ViewModel take care of creating cards; make it pass in the createCardContent func
@@ -28,7 +42,7 @@ struct MemoryGame<CardContent> {
         for pairIndex in 0..<numberOfPairOfCards {
             let content = createCardContent(pairIndex) // createCardContent is passed in as arg to init
             
-            // append called twice 
+            // append called twice; add two cards to the deck with the same content
             cards.append(Card(content: content, id: pairIndex * 2))
             cards.append(Card(content: content, id: pairIndex * 2+1))
         }
@@ -36,9 +50,9 @@ struct MemoryGame<CardContent> {
     
     struct Card: Identifiable {
         
-        var isFaceUp: Bool = true
+        var isFaceUp: Bool = false
         var isMatched: Bool = false
-        var content: CardContent
+        var content: CardContent    // CardContent is a generic type aka Dont Care; don't care what it is
         var id: Int                 // Need id as int to be identifiable; makes freaking sense dont it?
 
     }

@@ -9,7 +9,9 @@ import SwiftUI
 
 struct ContentView: View {
     
-    let viewModel: EmojiMemoryGame      // Declare a constant for the ViewModel
+    // Making this @ObservedObject will force body to be redrawn
+    // any time the viewModel publishes a change
+    @ObservedObject var viewModel: EmojiMemoryGame      // Declare a constant for the ViewModel
     
     var body: some View {
         ScrollView {
@@ -17,7 +19,12 @@ struct ContentView: View {
                 
                 // iterate on the cards of the viewModel
                 ForEach(viewModel.cards) { card in
-                    CardView(card: card).aspectRatio(2/3, contentMode: .fit)
+                    CardView(card: card)
+                        .aspectRatio(2/3, contentMode: .fit)
+                        .onTapGesture {
+                            // Ask the viewModel to choose the user's intent
+                            viewModel.choose(card)
+                        }
                 }
             }
         }
