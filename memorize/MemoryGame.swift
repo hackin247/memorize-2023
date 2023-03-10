@@ -17,9 +17,10 @@ struct MemoryGame<CardContent> {
     
     // declare func as capable of mutating this model
     mutating func choose(_ card: Card) {
-        let chosenIndex = index(of: card)!      // Unwrap the optional; will crash the app if value is nil
-        cards[chosenIndex].isFaceUp.toggle()
-        print("chosen card = ")
+        if let chosenIndex = index(of: card) {  // instead of using optional, we'll only execute code if card is found
+            cards[chosenIndex].isFaceUp.toggle()
+            print("chosen card = ")
+        }
         print(cards)
     }
     
