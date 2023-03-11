@@ -22,9 +22,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         
         set {
             // Flip all cards down except the one that is faceUp
-            cards.indices.forEach({ index in
-                cards[index].isFaceUp = (index == newValue)
-            })
+            cards.indices.forEach{cards[$0].isFaceUp = ($0 == newValue)}
             
 //            for index in cards.indices {
 //                // isFaceUp is only true if index is the same as the newValue
