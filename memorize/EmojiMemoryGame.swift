@@ -13,6 +13,8 @@ import SwiftUI
 // Making it conform to ObservableObject, allows others to subscribe to published changes
 class EmojiMemoryGame: ObservableObject {
     
+    typealias Card = MemoryGame<String>.Card
+    
     private static var emojis = ["🚲","🚂","🚁","🚜","🚀","✈️","🚗","🚕","🚌","🚎","🏎️","🚓","🚑","🚒","🚐","🛻","🚚","🚛","🚙","🛵","🛴","🛺","🦼","🛰️"]
 
     // Function tht returns a MemoryGame model
@@ -30,14 +32,14 @@ class EmojiMemoryGame: ObservableObject {
     @Published private var model: MemoryGame<String> = createMemoryGame()
     
     // Public var
-    var cards: Array<MemoryGame<String>.Card> {
+    var cards: Array<Card> {
         model.cards                      // return the cards from the model
     }
     
     // MARK: - intent(s)
     
     // This viewModel will express the user's intent
-    func choose(_ card: MemoryGame<String>.Card) {
+    func choose(_ card: Card) {
         
         // But it is the model that actually acts on the user's intent
         model.choose(card)
