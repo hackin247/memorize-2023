@@ -19,7 +19,7 @@ struct EmojiMemoryGameView: View {
                 
                 // iterate on the cards of the viewModel
                 ForEach(game.cards) { card in
-                    CardView(card)
+                    CardView(card: card)
                         .aspectRatio(2/3, contentMode: .fit)
                         .onTapGesture {
                             // Ask the game to choose the user's intent
@@ -37,11 +37,7 @@ struct EmojiMemoryGameView: View {
 struct CardView: View {
 
     // This CardView takes a Card and builds a body from it
-    private let card: EmojiMemoryGame.Card
-    
-    init(_ givenCard: EmojiMemoryGame.Card) {
-        card = givenCard
-    }
+    let card: EmojiMemoryGame.Card
     
     var body: some View {
         ZStack {
