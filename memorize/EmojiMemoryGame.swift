@@ -29,7 +29,7 @@ class EmojiMemoryGame: ObservableObject {
     
     // model is a MemoryGame with strings as CardContent
     // Making @Published will automatically invoke objectWillChange.send()
-    @Published private var model: MemoryGame<String> = createMemoryGame()
+    @Published private var model = createMemoryGame()
     
     // Public var
     var cards: Array<Card> {

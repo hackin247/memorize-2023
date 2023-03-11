@@ -37,7 +37,7 @@ struct EmojiMemoryGameView: View {
 struct CardView: View {
 
     // This CardView takes a Card and builds a body from it
-    let card: MemoryGame<String>.Card
+    let card: EmojiMemoryGame.Card
     
     var body: some View {
         ZStack {

@@ -66,7 +66,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
     // Let the ViewModel take care of creating cards; make it pass in the createCardContent func
     // func programming; passing a func to this init func
     init(numberOfPairOfCards: Int, createCardContent: (Int) -> CardContent ) {
-        cards = Array<Card>()
+        cards = []
         
         // add numberOfPairOfCards x 2 to cards array
         for pairIndex in 0..<numberOfPairOfCards {
@@ -80,8 +80,8 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
     
     struct Card: Identifiable {
         
-        var isFaceUp: Bool = false
-        var isMatched: Bool = false
+        var isFaceUp = false
+        var isMatched = false
         let content: CardContent    // CardContent is a generic type aka Dont Care; don't care what it is
         let id: Int                 // Need id as int to be identifiable; makes freaking sense dont it?
 
