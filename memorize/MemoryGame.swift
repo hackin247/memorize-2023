@@ -21,14 +21,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         get {
             
             let faceUpCardIndices = cards.indices.filter({cards[$0].isFaceUp})
-            
-            // return an index if there is only one faceUp card
-            // return nil otherwise
-            if faceUpCardIndices.count == 1 {
-                return faceUpCardIndices.first
-            } else {
-                return nil
-            }
+            return faceUpCardIndices.oneAndOnly
         }
         
         set {
@@ -108,5 +101,23 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         let content: CardContent    // CardContent is a generic type aka Dont Care; don't care what it is
         let id: Int                 // Need id as int to be identifiable; makes freaking sense dont it?
 
+    }
+}
+
+// Add an extension to Array that returns the Element (Don't care type for Array)
+// that returns of the only faceUp card; else returns nil
+extension Array {
+    
+    // Can't have stored vars in extensions, they have to be computed
+    
+    var oneAndOnly: Element? {       // Making it optional because we can also return nil
+        
+        // return an index if there is only one faceUp card
+        // return nil otherwise
+        if count == 1 {                 // count is short for self.count
+            return first                // first is short for self.first
+        } else {
+            return nil
+        }
     }
 }
