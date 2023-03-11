@@ -82,8 +82,8 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         
         var isFaceUp: Bool = false
         var isMatched: Bool = false
-        var content: CardContent    // CardContent is a generic type aka Dont Care; don't care what it is
-        var id: Int                 // Need id as int to be identifiable; makes freaking sense dont it?
+        let content: CardContent    // CardContent is a generic type aka Dont Care; don't care what it is
+        let id: Int                 // Need id as int to be identifiable; makes freaking sense dont it?
 
     }
 }

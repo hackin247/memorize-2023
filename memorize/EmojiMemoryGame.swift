@@ -13,11 +13,11 @@ import SwiftUI
 // Making it conform to ObservableObject, allows others to subscribe to published changes
 class EmojiMemoryGame: ObservableObject {
     
-    static var emojis = ["🚲","🚂","🚁","🚜","🚀","✈️","🚗","🚕","🚌","🚎","🏎️","🚓","🚑","🚒","🚐","🛻","🚚","🚛","🚙","🛵","🛴","🛺","🦼","🛰️"]
+    private static var emojis = ["🚲","🚂","🚁","🚜","🚀","✈️","🚗","🚕","🚌","🚎","🏎️","🚓","🚑","🚒","🚐","🛻","🚚","🚛","🚙","🛵","🛴","🛺","🦼","🛰️"]
 
     // Function tht returns a MemoryGame model
     // - Defines the CardContent as String
-    static func createMemoryGame() -> MemoryGame<String> {
+    private static func createMemoryGame() -> MemoryGame<String> {
         
         // init for MemoryGame takes an int (numberOfPairOfCards) and a function
         MemoryGame<String>(numberOfPairOfCards: 4) { pairIndex in
