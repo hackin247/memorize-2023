@@ -18,19 +18,23 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
     // need a var to track a card that was previously flipped, and face up.
     //
     private var indexOfTheOneAndOnlyFaceUpCard: Int? {
-        get {
-            cards.indices.filter({cards[$0].isFaceUp}).oneAndOnly
-        }
+        get { cards.indices.filter({cards[$0].isFaceUp}).oneAndOnly}
         
         set {
             // Flip all cards down except the one that is faceUp
-            for index in cards.indices {
-                if index != newValue {
-                    cards[index].isFaceUp = false
-                } else {
-                    cards[index].isFaceUp = true
-                }
-            }
+            cards.indices.forEach({ index in
+                cards[index].isFaceUp = (index == newValue)
+            })
+            
+//            for index in cards.indices {
+//                // isFaceUp is only true if index is the same as the newValue
+//                if index != newValue {
+//                    cards[index].isFaceUp = false
+//                } else {
+//                    cards[index].isFaceUp = true
+//                }
+//            }
+            
         }
     }
     
