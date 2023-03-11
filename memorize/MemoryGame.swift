@@ -17,7 +17,35 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
     
     // need a var to track a card that was previously flipped, and face up.
     //
-    private var indexOfTheOneAndOnlyFaceUpCard: Int?
+    private var indexOfTheOneAndOnlyFaceUpCard: Int? {
+        get {
+            var faceUpCardIndices = [Int]()
+            for index in cards.indices {
+                if cards[index].isFaceUp {
+                    faceUpCardIndices.append(index)
+                }
+            }
+            
+            // return an index if there is only one faceUp card
+            // return nil otherwise
+            if faceUpCardIndices.count == 1 {
+                return faceUpCardIndices.first
+            } else {
+                return nil
+            }
+        }
+        
+        set {
+            // Flip all cards down except the one that is faceUp
+            for index in cards.indices {
+                if index != newValue {
+                    cards[index].isFaceUp = false
+                } else {
+                    cards[index].isFaceUp = true
+                }
+            }
+        }
+    }
     
     
     // declare func as capable of mutating this model
@@ -30,11 +58,14 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
             !cards[chosenIndex].isFaceUp,           // Flip the card only only if it's face down
             !cards[chosenIndex].isMatched {         // Flip the card only only if it's not alreadyt matched
             
-            // ok we flipped a card, now what?
-            // Check if there's already a card that is face up (not nil)
+            // ok a card was chosen, now what?
+            // Check if there's already a card that is face up (index is not nil)
+            
             if let potentialIndexMatchIndex = indexOfTheOneAndOnlyFaceUpCard {
                 
-                // check if the cards match!
+                // There is a faceUp card
+                
+                // Card matched logic
                 // will show an error unless CardContent is Equatable
                 if cards[chosenIndex].content == cards[potentialIndexMatchIndex].content {
                     
@@ -42,21 +73,17 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
                     cards[chosenIndex].isMatched = true
                     cards[potentialIndexMatchIndex].isMatched = true
                 }
-                indexOfTheOneAndOnlyFaceUpCard = nil
+                
+                // flip the chosen card
+                cards[chosenIndex].isFaceUp = true
                 
             } else {
                 
-                // either two cards are face up, or all are face down (can't wrap my head around this yet)
-                for index in cards.indices {
-                    cards[index].isFaceUp = false
-                }
-                
-                // set the index of the face up card
+                // set the index of the faceUp card
                 indexOfTheOneAndOnlyFaceUpCard = chosenIndex
             }
 
-            // always toggle the chosen card
-            cards[chosenIndex].isFaceUp.toggle()
+
             
             print("chosen card = ")
         }
