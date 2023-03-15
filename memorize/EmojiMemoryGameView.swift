@@ -49,8 +49,7 @@ struct CardView: View {
                 if card.isFaceUp {
                     shape.fill().foregroundColor(.white)
                     shape.strokeBorder( lineWidth: DrawingConstants.lineWidth )
-                    Text(card.content)
-                        .font(Font.system(size: min(geometry.size.width, geometry.size.height)*DrawingConstants.fontScale))
+                    Text(card.content).font(font(in: geometry.size))
                 } else if card.isMatched{
                     
                     // hide the card view if it is matched
@@ -62,6 +61,11 @@ struct CardView: View {
             }
 
         })
+    }
+    
+    // Utility function that takes a CGSize and returns a font
+    private func font(in size: CGSize) -> Font {
+        Font.system(size: min(size.width, size.height)*DrawingConstants.fontScale)
     }
 }
 
