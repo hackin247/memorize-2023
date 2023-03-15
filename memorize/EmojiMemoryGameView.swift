@@ -44,13 +44,13 @@ struct CardView: View {
         GeometryReader(content: { geometry in
             
             ZStack {
-                let shape = RoundedRectangle(cornerRadius: 20.0)
+                let shape = RoundedRectangle(cornerRadius: DrawingConstants.cornerRadius)
 
                 if card.isFaceUp {
                     shape.fill().foregroundColor(.white)
-                    shape.strokeBorder( lineWidth: 3.0 )
+                    shape.strokeBorder( lineWidth: DrawingConstants.lineWidth )
                     Text(card.content)
-                        .font(Font.system(size: min(geometry.size.width, geometry.size.height)*0.8))
+                        .font(Font.system(size: min(geometry.size.width, geometry.size.height)*DrawingConstants.fontScale))
                 } else if card.isMatched{
                     
                     // hide the card view if it is matched
@@ -75,6 +75,12 @@ struct ContentView_Previews: PreviewProvider {
         EmojiMemoryGameView(game: game).preferredColorScheme(.dark)
         EmojiMemoryGameView(game: game).preferredColorScheme(.light)
     }
+}
+
+private struct DrawingConstants {
+    static let cornerRadius: CGFloat = 20
+    static let lineWidth: CGFloat = 3
+    static let fontScale: CGFloat = 0.8
 }
 
 
