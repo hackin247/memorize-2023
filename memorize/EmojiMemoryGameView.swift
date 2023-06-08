@@ -30,7 +30,7 @@ struct EmojiMemoryGameView: View {
         //
         AspectVGrid(items: game.cards, aspectRatio: 2/3, content: { card in
             CardView(card: card)
-                .aspectRatio(2/3, contentMode: .fit)
+                .padding(4)
                 .onTapGesture {
                     // Ask the game to choose the user's intent
                     game.choose(card)
@@ -96,9 +96,9 @@ struct ContentView_Previews: PreviewProvider {
 }
 
 private struct DrawingConstants {
-    static let cornerRadius: CGFloat = 20
+    static let cornerRadius: CGFloat = 10
     static let lineWidth: CGFloat = 3
-    static let fontScale: CGFloat = 0.8
+    static let fontScale: CGFloat = 0.75
 }
 
 
