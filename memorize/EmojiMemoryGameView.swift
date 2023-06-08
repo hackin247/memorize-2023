@@ -14,20 +14,34 @@ struct EmojiMemoryGameView: View {
     @ObservedObject var  game: EmojiMemoryGame      // Declare a constant for the ViewModel
     
     var body: some View {
-        ScrollView {
-            LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]) {
-                
-                // iterate on the cards of the viewModel
-                ForEach(game.cards) { card in
-                    CardView(card: card)
-                        .aspectRatio(2/3, contentMode: .fit)
-                        .onTapGesture {
-                            // Ask the game to choose the user's intent
-                            game.choose(card)
-                        }
+//        ScrollView {
+//            LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]) {
+//
+//                // iterate on the cards of the viewModel
+//                ForEach(game.cards) { card in
+        
+        // Create a view combiner that maintains the size grid items using an aspect ratio;
+        // dynamically resize depending on the number of cards
+        //
+        // Params:
+        // - the cards in the grid aka items
+        // - the desired aspect ratio (CGFloat)
+        // - content aka function that returns a view >> CardView?
+        //
+        AspectVGrid(items: game.cards, aspectRatio: 2/3, content: { card in
+            CardView(card: card)
+                .aspectRatio(2/3, contentMode: .fit)
+                .onTapGesture {
+                    // Ask the game to choose the user's intent
+                    game.choose(card)
                 }
-            }
-        }
+        })
+        
+        
+        
+//                }
+//            }
+//        }
         .foregroundColor(.red)
         .padding(.horizontal)
     }
