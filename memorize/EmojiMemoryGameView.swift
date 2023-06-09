@@ -23,7 +23,7 @@ struct EmojiMemoryGameView: View {
         // - the desired aspect ratio (CGFloat)
         // - content aka function that returns a view >> CardView?
         //
-        AspectVGrid(items: game.cards, aspectRatio: 2/3, content: { card in
+        AspectVGrid(items: game.cards, aspectRatio: 2/3) { card in
             
             if card.isMatched && card.isFaceUp {
                 Rectangle().opacity(0)
@@ -35,8 +35,7 @@ struct EmojiMemoryGameView: View {
                         game.choose(card)
                     }
             }
-        })
-        
+        }
         .foregroundColor(.red)
         .padding(.horizontal)
     }
