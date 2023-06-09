@@ -29,12 +29,17 @@ struct EmojiMemoryGameView: View {
         // - content aka function that returns a view >> CardView?
         //
         AspectVGrid(items: game.cards, aspectRatio: 2/3, content: { card in
-            CardView(card: card)
-                .padding(4)
-                .onTapGesture {
-                    // Ask the game to choose the user's intent
-                    game.choose(card)
-                }
+            
+            if card.isMatched && card.isFaceUp {
+                Rectangle().opacity(0)
+            } else {
+                CardView(card: card)
+                    .padding(4)
+                    .onTapGesture {
+                        // Ask the game to choose the user's intent
+                        game.choose(card)
+                    }
+            }
         })
         
         
