@@ -14,11 +14,6 @@ struct EmojiMemoryGameView: View {
     @ObservedObject var  game: EmojiMemoryGame      // Declare a constant for the ViewModel
     
     var body: some View {
-//        ScrollView {
-//            LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]) {
-//
-//                // iterate on the cards of the viewModel
-//                ForEach(game.cards) { card in
         
         // Create a view combiner that maintains the size grid items using an aspect ratio;
         // dynamically resize depending on the number of cards
@@ -42,11 +37,6 @@ struct EmojiMemoryGameView: View {
             }
         })
         
-        
-        
-//                }
-//            }
-//        }
         .foregroundColor(.red)
         .padding(.horizontal)
     }
