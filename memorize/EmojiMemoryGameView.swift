@@ -57,6 +57,7 @@ struct CardView: View {
                 if card.isFaceUp {
                     shape.fill().foregroundColor(.white)
                     shape.strokeBorder( lineWidth: DrawingConstants.lineWidth )
+                    Circle()
                     Text(card.content).font(font(in: geometry.size))
                 } else if card.isMatched{
                     
@@ -83,9 +84,8 @@ struct ContentView_Previews: PreviewProvider {
     
     static var previews: some View {
         let game = EmojiMemoryGame()
-
-        EmojiMemoryGameView(game: game).preferredColorScheme(.dark)
-        EmojiMemoryGameView(game: game).preferredColorScheme(.light)
+        game.choose(game.cards.first!)
+        return EmojiMemoryGameView(game: game)
     }
 }
 
