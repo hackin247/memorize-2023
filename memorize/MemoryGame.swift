@@ -18,22 +18,8 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
     // need a var to track a card that was previously flipped, and face up.
     //
     private var indexOfTheOneAndOnlyFaceUpCard: Int? {
-        get { cards.indices.filter({cards[$0].isFaceUp}).oneAndOnly}
-        
-        set {
-            // Flip all cards down except the one that is faceUp
-            cards.indices.forEach{cards[$0].isFaceUp = ($0 == newValue)}
-            
-//            for index in cards.indices {
-//                // isFaceUp is only true if index is the same as the newValue
-//                if index != newValue {
-//                    cards[index].isFaceUp = false
-//                } else {
-//                    cards[index].isFaceUp = true
-//                }
-//            }
-            
-        }
+        get {cards.indices.filter({cards[$0].isFaceUp}).oneAndOnly}
+        set {cards.indices.forEach{cards[$0].isFaceUp = ($0 == newValue)}} // Flip all cards down except the one that is faceUp
     }
     
     
@@ -45,11 +31,10 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         // chosenIndex will get assigned a value first
         if let chosenIndex = cards.firstIndex(where: { $0.id == card.id}),
             !cards[chosenIndex].isFaceUp,           // Flip the card only only if it's face down
-            !cards[chosenIndex].isMatched {         // Flip the card only only if it's not alreadyt matched
-            
+            !cards[chosenIndex].isMatched          // Flip the card only only if it's not alreadyt matched
+        {
             // ok a card was chosen, now what?
             // Check if there's already a card that is face up (index is not nil)
-            
             if let potentialIndexMatchIndex = indexOfTheOneAndOnlyFaceUpCard {
                 
                 // There is a faceUp card
@@ -62,21 +47,16 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
                     cards[chosenIndex].isMatched = true
                     cards[potentialIndexMatchIndex].isMatched = true
                 }
-                
-                // flip the chosen card
                 cards[chosenIndex].isFaceUp = true
-                
+                //indexOfTheOneAndOnlyFaceUpCard = nil
             } else {
                 
                 // set the index of the faceUp card
                 indexOfTheOneAndOnlyFaceUpCard = chosenIndex
             }
-
-
-            
-            print("chosen card = ")
+            // flip the chosen card
+            //cards[chosenIndex].isFaceUp.toggle()
         }
-        print(cards)
     }
     
     // Let the ViewModel take care of creating cards; make it pass in the createCardContent func

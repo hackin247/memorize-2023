@@ -14,7 +14,6 @@ struct Cardify:ViewModifier {
     func body(content: Content) -> some View {
         ZStack {
             let shape = RoundedRectangle(cornerRadius: DrawingConstants.cornerRadius)
-
             if isFaceUp {
                 shape.fill().foregroundColor(.white)
                 shape.strokeBorder( lineWidth: DrawingConstants.lineWidth )
