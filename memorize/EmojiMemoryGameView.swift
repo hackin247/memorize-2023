@@ -14,17 +14,16 @@ struct EmojiMemoryGameView: View {
     @ObservedObject var  game: EmojiMemoryGame      // Declare a constant for the ViewModel
     
     var body: some View {
-        
-        // Create a view combiner that maintains the size grid items using an aspect ratio;
-        // dynamically resize depending on the number of cards
-        //
-        // Params:
-        // - the cards in the grid aka items
-        // - the desired aspect ratio (CGFloat)
-        // - content aka function that returns a view >> CardView?
-        //
+        VStack {
+            gameBody
+            shuffle
+        }
+
+        .padding(.horizontal)
+    }
+    
+    var gameBody: some View {
         AspectVGrid(items: game.cards, aspectRatio: 2/3) { card in
-            
             if card.isMatched && !card.isFaceUp {
                 Rectangle().opacity(0)
             } else {
@@ -37,7 +36,12 @@ struct EmojiMemoryGameView: View {
             }
         }
         .foregroundColor(.red)
-        .padding(.horizontal)
+    }
+    
+    var shuffle: some View {
+        Button("Shuffle") {
+            print("suffled!")
+        }
     }
 }
 
@@ -55,12 +59,17 @@ struct CardView: View {
                     .opacity(0.5)
                 Text(card.content)
                     .rotationEffect(Angle.degrees(card.isMatched ? 360 : 0))
-                    .animation(Animation.easeOut(duration: 20))
-                    .font(font(in: geometry.size))
+                    .animation(Animation.linear(duration: 1).repeatForever(autoreverses: false))
+                    .font(Font.system(size: DrawingConstants.fontSize))
+                    .scaleEffect(scale(thatFits: geometry.size))
             }
             .cardify(isFaceUp: card.isFaceUp)
 
         })
+    }
+    
+    private func scale(thatFits size: CGSize) -> CGFloat {
+        min(size.width, size.height) / (DrawingConstants.fontSize / DrawingConstants.fontScale)
     }
     
     // Utility function that takes a CGSize and returns a font
@@ -70,6 +79,7 @@ struct CardView: View {
     
     private struct DrawingConstants {
         static let fontScale: CGFloat = 0.7
+        static let fontSize: CGFloat = 32
     }
 }
 
