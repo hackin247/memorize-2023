@@ -21,8 +21,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         get {cards.indices.filter({cards[$0].isFaceUp}).oneAndOnly}
         set {cards.indices.forEach{cards[$0].isFaceUp = ($0 == newValue)}} // Flip all cards down except the one that is faceUp
     }
-    
-    
+        
     // declare func as capable of mutating this model
     mutating func choose(_ card: Card) {
         
@@ -59,6 +58,10 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         }
     }
     
+    mutating func shuffle() {
+        cards.shuffle()
+    }
+    
     // Let the ViewModel take care of creating cards; make it pass in the createCardContent func
     // func programming; passing a func to this init func
     init(numberOfPairOfCards: Int, createCardContent: (Int) -> CardContent ) {
@@ -72,6 +75,8 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
             cards.append(Card(content: content, id: pairIndex * 2))
             cards.append(Card(content: content, id: pairIndex * 2+1))
         }
+        
+        cards.shuffle()
     }
     
     struct Card: Identifiable {

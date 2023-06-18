@@ -40,7 +40,7 @@ struct EmojiMemoryGameView: View {
     
     var shuffle: some View {
         Button("Shuffle") {
-            print("suffled!")
+            game.shuffle()
         }
     }
 }

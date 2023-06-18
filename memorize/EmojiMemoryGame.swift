@@ -44,4 +44,8 @@ class EmojiMemoryGame: ObservableObject {
         // But it is the model that actually acts on the user's intent
         model.choose(card)
     }
+    
+    func shuffle() {
+        model.shuffle()   // ask the MemoryGame model to shuffle
+    }
 }
