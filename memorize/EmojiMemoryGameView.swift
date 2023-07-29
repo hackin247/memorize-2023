@@ -22,20 +22,42 @@ struct EmojiMemoryGameView: View {
         .padding(.horizontal)
     }
     
+    // Add primitives (vars and funcs) to help keep track of cards that are on
+    // screen already so we can better animate their contents
+    @State private var dealt = Set<Int>()
+    
+    private func deal(_ card: EmojiMemoryGame.Card) {
+        dealt.insert(card.id)
+    }
+    
+    private func isUndealt(_ card:EmojiMemoryGame.Card) -> Bool {
+        !dealt.contains(card.id)
+    }
+    // -------------------
+    
+    
     var gameBody: some View {
         AspectVGrid(items: game.cards, aspectRatio: 2/3) { card in
-            if card.isMatched && !card.isFaceUp {
+            if isUndealt(card) || card.isMatched && !card.isFaceUp {
                 Color.clear
             } else {
                 CardView(card: card)
                     .padding(4)
-                    .transition(AnyTransition.scale)
+                    .transition(AnyTransition.asymmetric(insertion: .scale, removal: .opacity).animation(.easeInOut(duration: 3)))
                     .onTapGesture {
                         // Ask the game to choose the user's intent
                         withAnimation (.easeIn) {
                             game.choose(card)
                         }
                     }
+            }
+        }
+        .onAppear {
+            // deal cards
+            withAnimation {
+                for card in game.cards {
+                    deal(card)
+                }
             }
         }
         .foregroundColor(.red)
