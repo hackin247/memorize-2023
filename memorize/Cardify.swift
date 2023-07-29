@@ -7,10 +7,15 @@
 
 import SwiftUI
 
-struct Cardify:ViewModifier {
+struct Cardify:AnimatableModifier {
     
     init(isFaceUp: Bool) {
         rotation = isFaceUp ? 0 : 180
+    }
+    
+    var animatableData: Double {
+        get { rotation }
+        set { rotation = newValue }
     }
     
     var rotation: Double    // in degrees

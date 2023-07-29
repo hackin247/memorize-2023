@@ -29,9 +29,10 @@ struct EmojiMemoryGameView: View {
             } else {
                 CardView(card: card)
                     .padding(4)
+                    .transition(AnyTransition.scale)
                     .onTapGesture {
                         // Ask the game to choose the user's intent
-                        withAnimation (.easeIn(duration: 3)) {
+                        withAnimation (.easeIn) {
                             game.choose(card)
                         }
                     }
