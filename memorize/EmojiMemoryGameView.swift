@@ -16,18 +16,19 @@ struct EmojiMemoryGameView: View {
     @Namespace private var dealingNamespace
     
     var body: some View {
-        VStack {
-            gameBody
-            deckBody
-            HStack {
-                restart
-                Spacer()
-                shuffle
+        ZStack(alignment: .bottom) {
+            VStack {
+                gameBody
+                HStack {
+                    restart
+                    Spacer()
+                    shuffle
+                }
+                .padding(.horizontal)
             }
-
+            deckBody
         }
-
-        .padding(.horizontal)
+        .padding()
     }
     
     // Add primitives (vars and funcs) to control animation using .onAppear
