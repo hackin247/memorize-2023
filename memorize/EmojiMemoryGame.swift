@@ -17,7 +17,7 @@ class EmojiMemoryGame: ObservableObject {
     
     private static var emojis = ["🚲","🚂","🚁","🚜","🚀","✈️","🚗","🚕","🚌","🚎","🏎️","🚓","🚑","🚒","🚐","🛻","🚚","🚛","🚙","🛵","🛴","🛺","🦼","🛰️"]
 
-    // Function tht returns a MemoryGame model
+    // Function that returns a MemoryGame model;unlike in OO where you declare an instance
     // - Defines the CardContent as String
     private static func createMemoryGame() -> MemoryGame<String> {
         
